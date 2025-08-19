@@ -1,5 +1,6 @@
 import { z, defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { marked } from 'marked';
+import { getArticles } from '..//lib/directus.ts';
 
 const metadataDefinition = () =>
   z
@@ -47,7 +48,23 @@ const metadataDefinition = () =>
     .optional();
 
 const postCollection = defineCollection({
-  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/post' }),
+  // loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/data/post' }),
+  loader: async () => {
+    const articles = await getArticles();
+    return articles.map((x) => {
+      return {
+        id: x.slug,
+        publishDate: new Date(x.date_created),
+        title: x.title,
+        slug: x.slug,
+        excerpt: x.excerpt,
+        category: x.category,
+        content: marked(x.body),
+        tags: x.tags || [],
+        image: x.feature_image?.id ? `https://directus.katharostech.com/assets/${x.feature_image.id}` : undefined,
+      };
+    });
+  },
   schema: z.object({
     publishDate: z.date().optional(),
     updateDate: z.date().optional(),
