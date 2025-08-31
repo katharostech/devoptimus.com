@@ -1,3 +1,12 @@
+All original modifications to this website's template and this website's content
+is Copyright © 2025 Katharos Group and licensed under the [Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0
+International license](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+The original template is under the following license:
+
+---
+
 MIT License
 
 Copyright (c) 2023 onWidget
